@@ -12,11 +12,11 @@ class Todo:
         title = card["name"]
         status = ""
 
-        if card["idList"] == os.environ["todo_listid"]:
+        if card["idList"] == os.environ['todo_listid']:
             status = "Todo"
-        elif card["idList"] == os.environ["done_listid"]:
-            status = "Done"
-        elif card["idList"] == os.environ["doing_listid"]:
+        elif card["idList"] == os.environ['done_listid']:
+                   status = "Done"
+        elif card["idList"] == os.environ['doing_listid']:
             status = "Doing"
 
         new_class_instance = cls(id, title, status)

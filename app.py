@@ -4,24 +4,25 @@ from flask import Flask, render_template, request, redirect, url_for
 import requests                     # Import the whole of requests
 import json
 import os        # Secrets for example Trello tokens etc in here (local only)
+import socket 
+socket.getaddrinfo('localhost', 25)
+
+
 from models.view_model import ViewModel
 from todo import Todo
 app = Flask(__name__)
 
 #Set up variables we'll be using
 
-trellokey=os.environ["key"]            # get the secret key
-trellotoken=os.environ["token"]         # get the secret token
-
-
-
+trellokey= os.environ['key']            # get the secret key
+trellotoken= os.environ['token']         # get the secret token
 
 @app.route('/', methods = ["GET","PUT"])
 def index():
     thislist=[]                  
     superlist=[] 
     cardsurl = "https://api.trello.com/1/cards"      
-    boardurl = f"https://api.trello.com/1/boards/{os.environ['board_id']}/cards"             # The board ID is not a secret!
+    boardurl = f"https://api.trello.com/1/boards/5f3528983d4fb244aae9f934/cards"             # The board ID is not a secret
 
 # Trello GET for recieving all the cards here
 
@@ -40,15 +41,10 @@ def index():
     for trello_card in card_list:
         todo = Todo.from_trello_card(trello_card)
         superlist.append(todo)
-
-
+        
     item_view_model = ViewModel(superlist)
    
     return render_template('index.html', view_model=item_view_model)
-
-
-    # return render_template('index.html',passedItems=Items,todisplay=superlist)
-    # return redirect("/")
 
 
 @app.route('/addentry', methods = ["POST"])

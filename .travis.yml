@@ -5,32 +5,24 @@ script:
 - FLASK_ENV=development
 - docker build --target test --tag todoapptest .
 - docker run -p 5000:5000 todoapptest
-- docker build --target production -f Dockerfile --tag $DOCKERHUB_USERNAME/todoapp .
+- docker build --target production -f Dockerfile --tag $DOCKERHUB_USERNAME/todoapp
+  .
 - echo $dockerhub_password | docker login --username $DOCKERHUB_USERNAME --password-stdin
 - echo "Now for the push"
 - echo "-------------------"
 - docker push $DOCKERHUB_USERNAME/todoapp
-
-# module 8 Part 3:  Continous deployment   improvements   123
-
-- docker pull britboy4321/todoapp      #  Ensure that we have latest version (possibly not required)
-- docker tag britboy4321/todoapp registry.heroku.com/todoappbritboy/web  # Tag it ready for Heroku
+- docker pull britboy4321/todoapp
+- docker tag britboy4321/todoapp registry.heroku.com/todoappbritboy/web
 - docker login --username=drawlinson48@gmail.com --password=$Heroku_finalpass2 registry.heroku.com
-- docker push registry.heroku.com/todoappbritboy/web   # put it onto Heroku
-
+- docker push registry.heroku.com/todoappbritboy/web
 - echo "CONTINUOUS DEPLOYMENT SETUP COMPLETED NOW"
 - echo "-----------------------------------------"
-# ---
 - echo "TIME FOR ACTUAL DEPLOY and RELEASE NOW"
 - echo "--------------------------------------"
-
 deploy:
-  provider: script 
-  script: 
-    heroku container:release web --app todoappbritboy
-  on: 
+  provider: script
+  script: heroku container:release web --app todoappbritboy
+  on:
     branch: module9
-    # - master
-    # - module7       # To be removed eventually
-    # - module8       # To be removed eventually
-    # module9       # To be removed eventually
+  api_key:
+    secure: EcZ0Fa+hPAsMdhUQXyJeW+sA7YT0pALUySeQsU3yxyArvVuj7sH/bMXLoeg5owzyRMQy35fLyBzCu1NailKLxrhN8qqD6jhuWuApWi+hdpbdwmJiE+M6t9XX+d2u9iSJ0pgwFNERgZsdlHbEr3dm60DKe/Q+vWZB3rHd1FkASJ+NYytFiblk32aPG2rEhuDf9fdOD28TUsxlvJW+plR7VhzcHxQKUjCAZKGpl0wEJhGPWKM/S7qg7k45FsOqCWSxxphbVMGfTjOVVsQ3N/SMnZsDzLfCFgFyfaJeCnyCmZmyJigz8bC/7aEyYB+0dk7OrlUHt6KW6g73pLCwLXrBliBjXdBfFaY5yaYOGVXL7Ov+XPO/X9PWJUxHQrYlGiBJzErSPeeA3JlULVZ2VDkTbeoe8/rcF899bpMcvzwnCGhD2RZW0Ui5rjJ3Lku/Mog5SoBDc4hdQPfFwcltcnlJOlh8RnsmP+iEkaLpEy4iIPIPtsIRgi7rJQvyV/GvOKCzzUhW+4yNDrZf6AKmGfYneLjsWh6gEqujeuGAOneAChxvaxj1wdlCEU7Y+IfY2M8cEg/mtmR9a5ScXYTJaBvSx02EGsPaFfzH2bPaLtPLJnuBc2TvDSY6LGPYJSKBXrN693yuOWQCA44POXIhynGYuUJFe7Up9ByQ1WPKvmYtIqM=

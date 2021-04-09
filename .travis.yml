@@ -1,5 +1,5 @@
 script:
-- echo "This is Daves Mondo module 9 work"
+- echo "This is Daves Mondo module 9 work again"
 - echo "---------------------------------"
 - FLASK_APP=todo_app/app
 - FLASK_ENV=development

@@ -16,8 +16,8 @@ app = Flask(__name__)
 print ("Program starting right now") 
 # mongopassword=os.environ["mongopass"]           # Secure password
 mongopassword=("Mongodbpass")
-#Set up variables we'll be using.  'client' if we wish to run local (not Heroku)
-# client = pymongo.MongoClient('mongodb+srv://britboy4321:' + mongopassword + '@cluster0.qfyqb.mongodb.net/myFirstDatabase?w=majority')
+#Set up variables we'll be using.  
+client = pymongo.MongoClient('mongodb+srv://britboy4321:' + mongopassword + '@cluster0.qfyqb.mongodb.net/myFirstDatabase?w=majority')
 
 db = client.gettingStarted              # Database to be used
 listid=os.environ["todo_listid"]

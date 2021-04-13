@@ -3,6 +3,8 @@ Python code interacts with MongoDB to give a unique front end interacting with M
 
 Getting Started
 
+DEV NEEDS TO AQUIRE MONGO CLUSTER
+
 Docker image 1 (tag:  dave2): 
 Gunicorn production environment, built using:
 docker build --target production -f Dockerfile --tag dave2 .

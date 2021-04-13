@@ -2,40 +2,30 @@
 
 from flask import Flask, render_template, request, redirect, url_for
 import requests                     # Import the whole of requests
-import json
-import os        # Secrets  (local only)
-import pymongo   # required for new mongo database   EXERCISE 9
+import json                         # 13/04 -- May no longer be required
+import os                           # Secrets  
+import pymongo                      # required
 from datetime import datetime, timedelta   # Needed for Mongo dates for 'older' records seperation
-
-# import pytest
 from todo_app.models.view_model import ViewModel
 from todo_app.todo import Todo
-# from dateutil.parser import parser
 
 app = Flask(__name__)
-print ("Program starting right now") 
-mongopassword=os.environ["mongopassword"]           # Secure password
-# hardcoded password to go here if necessary                   
-#Set up variables we'll be using...  
+print ("Program starting") 
+mongopassword=os.environ["mongopassword"]           # Secure password                   
+#Set up variables we'll be using... all 3 'sections' of client will be replaced with variables when I find time 
 client = pymongo.MongoClient('mongodb+srv://britboy4321:' + mongopassword + '@cluster0.qfyqb.mongodb.net/myFirstDatabase?w=majority')
-
 db = client.gettingStarted              # Database to be used
-listid=os.environ["todo_listid"]
 olddate = (datetime.now() - timedelta(days=5))   # Mongo: Used later to hide items older than 5 days
 
 # olddate = (datetime.now() + timedelta(days=5))  #Uncomment this line to check 'older items'
                                                   # work without having to hang around for 5 days!
-
 @app.route('/', methods = ["GET","PUT"])
 def index():
-    thislist=[]                     # Possibly no longer needed .. Trello remnant       
-    superlist=[]                    # Possibly no longer needed .. Trello remnant
     mongosuperlist=[]               # The name of the Mongo OVERALL list with all items in it
     mongo_view_model=[]             # The name of the Mongo TO DO list (section of collection)
     mongo_view_model_doing=[]       # The name of the Mongo DOING list (section of collection)
     mongo_view_model_done=[]        # The name of the Mongo DONE list (section of collection)
     mongo_view_model_olddone=[]     # Older 'done' items to be stored here (section of collection)
-
     mongosuperlist = list(db.newposts.find()) 
  
 #  Create the various lists depending on status

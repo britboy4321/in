@@ -3,7 +3,7 @@ Python code interacts with MongoDB to give a unique front end interacting with M
 
 Getting Started
 
-DEV NEEDS TO AQUIRE MONGO CLUSTER.  We now need the following information in .env if running local, or heroku (variables) if running cloud:
+DEV NEEDS TO AQUIRE MONGO CLUSTER.  We now need the following variable information if running on heroku:
 
 mongousername = Enter mongo username here   EXAMPLE FORMAT: britboy123
 mongopassword = Enter mongo password here   EXAMPLE FORMAT: secretpass123
@@ -29,7 +29,7 @@ docker build --target test --tag my-test-image .
 
 In order to run this container you'll need 
 1) Docker installed
-2) A file, recommended called .env, that has at least below elements (found using Trello API    TO BE UPDATED when trello retired and replaced with MongoDB):
+2) A file (if running local), recommended called .env
 
 Minimum variable file:
 # Flask server configuration.
@@ -38,10 +38,9 @@ FLASK_ENV=development
 
 # Change the following values for local development.
 SECRET_KEY=secret-key
-
-
-
-myFirstDatabase?w=majority
+mongousername = Enter mongo username here   EXAMPLE FORMAT: britboy123
+mongopassword = Enter mongo password here   EXAMPLE FORMAT: secretpass123
+mongocluster= Enter mongo cluster here      EXAMPLE FORMAT: @cluster0.qfyqb.mongodb.net/
 
 #END OF FILE
 

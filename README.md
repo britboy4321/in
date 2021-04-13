@@ -3,7 +3,7 @@ Python code interacts with MongoDB to give a unique front end interacting with M
 
 Getting Started
 
-DEV NEEDS TO AQUIRE MONGO CLUSTER
+DEV NEEDS TO AQUIRE MONGO CLUSTER.  Next version:  Dev will be able to specify their mongo cluster and user_id without changing code.
 
 Docker image 1 (tag:  dave2): 
 Gunicorn production environment, built using:
@@ -32,13 +32,8 @@ FLASK_ENV=development
 
 # Change the following values for local development.
 SECRET_KEY=secret-key
-key=   Enter value here                 NO LONGER REQUIRED (FROM OLDER VERSION)
-token= Enter value here                 NO LONGER REQUIRED (FROM OLDER VERSION)
-todo_listid= Enter value here           NO LONGER REQUIRED (FROM OLDER VERSION)
-doing_listid= Enter value here          NO LONGER REQUIRED (FROM OLDER VERSION)
-done_listid= Enter value here           NO LONGER REQUIRED (FROM OLDER VERSION)
-board_id= Enter value here              NO LONGER REQUIRED (FROM OLDER VERSION)
-mongopass = Enter mongo password here
+
+mongopassword = Enter mongo password here
 FUTURE:  Will add mongoid variable into code (presently hard-coded to dev userid)
 
 #END OF FILE

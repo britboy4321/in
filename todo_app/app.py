@@ -16,7 +16,7 @@ app = Flask(__name__)
 print ("Program starting right now") 
 mongopassword=os.environ["mongopass"]           # Secure password
 
-#Set up variables we'll be using.
+#Set up variables we'll be using.  'client' if we wish to run local (not Heroku)
 # client = pymongo.MongoClient('mongodb+srv://britboy4321:' + mongopassword + '@cluster0.qfyqb.mongodb.net/myFirstDatabase?w=majority')
 
 db = client.gettingStarted              # Database to be used
@@ -28,8 +28,8 @@ olddate = (datetime.now() - timedelta(days=5))   # Mongo: Used later to hide ite
 
 @app.route('/', methods = ["GET","PUT"])
 def index():
-    thislist=[]                  
-    superlist=[] 
+    thislist=[]                     # Possibly no longer needed .. Trello remnant       
+    superlist=[]                    # Possibly no longer needed .. Trello remnant
     mongosuperlist=[]               # The name of the Mongo OVERALL list with all items in it
     mongo_view_model=[]             # The name of the Mongo TO DO list (section of collection)
     mongo_view_model_doing=[]       # The name of the Mongo DOING list (section of collection)

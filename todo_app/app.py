@@ -14,8 +14,8 @@ from todo_app.todo import Todo
 
 app = Flask(__name__)
 print ("Program starting right now") 
-mongopassword=os.environ["mongopass"]           # Secure password
-
+# mongopassword=os.environ["mongopass"]           # Secure password
+mongopassword=("Mongodbpass")
 #Set up variables we'll be using.  'client' if we wish to run local (not Heroku)
 # client = pymongo.MongoClient('mongodb+srv://britboy4321:' + mongopassword + '@cluster0.qfyqb.mongodb.net/myFirstDatabase?w=majority')
 

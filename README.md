@@ -3,7 +3,13 @@ Python code interacts with MongoDB to give a unique front end interacting with M
 
 Getting Started
 
-DEV NEEDS TO AQUIRE MONGO CLUSTER.  Next version:  Dev will be able to specify their mongo cluster and user_id without changing code.
+DEV NEEDS TO AQUIRE MONGO CLUSTER.  We now need the following information in .env if running local, or heroku (variables) if running cloud:
+
+mongousername = Enter mongo username here   EXAMPLE FORMAT: britboy123
+mongopassword = Enter mongo password here   EXAMPLE FORMAT: secretpass123
+mongocluster= Enter mongo cluster here      EXAMPLE FORMAT: @cluster0.qfyqb.mongodb.net/
+
+----------------------
 
 Docker image 1 (tag:  dave2): 
 Gunicorn production environment, built using:
@@ -33,10 +39,9 @@ FLASK_ENV=development
 # Change the following values for local development.
 SECRET_KEY=secret-key
 
-mongousername = Enter mongo username here EXAMPLE FORMAT: britboy123
-mongopassword = Enter mongo password here EXAMPLE FORMAT: secretpass123
-    
-mongocluster= Enter mongo cluster here EXAMPLE FORMAT: @cluster0.qfyqb.mongodb.net/myFirstDatabase?w=majority
+
+
+myFirstDatabase?w=majority
 
 #END OF FILE
 

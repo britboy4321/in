@@ -13,7 +13,6 @@ RUN apt-get update
  	apt-get install ./chrome.deb -y &&\
 	rm ./chrome.deb
   
-  
 # Install Chromium WebDriver
 
 RUN LATEST=`curl -sSL https://chromedriver.storage.googleapis.com/LATEST_RELEASE` &&\ 
@@ -24,7 +23,7 @@ RUN LATEST=`curl -sSL https://chromedriver.storage.googleapis.com/LATEST_RELEASE
 
 # Selenium Setup 
 
-
+# tbc
 
 # Get application files required and place in correct subdirectories
 WORKDIR /app
@@ -59,7 +58,7 @@ ENTRYPOINT "poetry run gunicorn --bind 0.0.0.0:$PORT todo_app.wsgi:app"
 
 FROM base as development
 
-ENTRYPOINT "poetry run flask run --host=0.0.0.0:$PORT"
+ENTRYPOINT poetry run flask run --host=0.0.0.0
 
 #Test
 FROM base as test

@@ -33,8 +33,10 @@ FLASK_ENV=development
 # Change the following values for local development.
 SECRET_KEY=secret-key
 
-mongopassword = Enter mongo password here
-FUTURE:  Will add mongoid variable into code (presently hard-coded to dev userid)
+mongousername = Enter mongo username here EXAMPLE FORMAT: britboy123
+mongopassword = Enter mongo password here EXAMPLE FORMAT: secretpass123
+    
+mongocluster= Enter mongo cluster here EXAMPLE FORMAT: @cluster0.qfyqb.mongodb.net/myFirstDatabase?w=majority
 
 #END OF FILE
 

@@ -24,8 +24,6 @@ RUN LATEST=`curl -sSL https://chromedriver.storage.googleapis.com/LATEST_RELEASE
 
 # Selenium Setup 
 
-
-
 # Get application files required and place in correct subdirectories
 WORKDIR /app
 RUN mkdir ./models

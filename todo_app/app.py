@@ -1,6 +1,6 @@
 # SETUP INFO
 
-from flask import Flask, render_template, request, redirect, g, url_for, session
+from flask import Flask, render_template, request, redirect, url_for
 from flask_login import LoginManager, login_required, current_user
 from flask_login.utils import login_user
 
@@ -50,7 +50,7 @@ login_manager.init_app(app)
 ################################
 print ("Program starting right now") 
 mongopassword=os.environ["mongopassword"]           # Secure password
-client_id=os.environ["client_id"]                   # Possibly not needed, defined earlier
+client_id=os.environ["client_id"]                   
 client_secret=os.environ["client_secret"]           # For security
 #Set up variables we'll be using.
 client = pymongo.MongoClient('mongodb+srv://britboy4321:' + mongopassword + '@cluster0.qfyqb.mongodb.net/myFirstDatabase?w=majority')
@@ -61,7 +61,6 @@ olddate = (datetime.now() - timedelta(days=5))   # Mongo: Used later to hide ite
 
 # olddate = (datetime.now() + timedelta(days=5))  #Uncomment this line to check 'older items'
                                                   # work without having to hang around for 5 days!
-
 
 @app.route('/', methods = ["GET","PUT"])
 @login_required
@@ -105,10 +104,6 @@ def index():
     print("CURRENT USER ROLE:")
     print(current_user_role)
 
-   # If statement to go here:
-   
-    # allow_edit = (current_user.name)
-
     if (current_user_role == "writer"):                 # Can now handle multiple users
         return render_template('indexwrite.html',       # If user allowed to write: 
         passed_items_todo=mongo_view_model,             # Mongo To Do
@@ -137,7 +132,8 @@ def mongoentry():
 @app.route('/move_to_doing_item', methods = ["PUT","GET","POST"])
 @login_required
 def move_to_doing_item():           # Called to move a 'card' to 'doing'
-    if (current_user_role == "writer"):
+    write_permission_user=(current_user.name)
+    if (write_permission_user == "britboy4321"):
         title = request.form['item_title']
         myquery = { "title": title }
         newvalues = { "$set": { "status": "doing" } }
@@ -149,7 +145,8 @@ def move_to_doing_item():           # Called to move a 'card' to 'doing'
 @app.route('/move_to_done_item', methods = ["PUT","GET","POST"])
 @login_required
 def move_to_done_item():            # Called to move a 'card' to 'done'
-    if (current_user_role == "writer"):
+    write_permission_user=(current_user.name)
+    if (write_permission_user == "britboy4321"):
         title = request.form['item_title']
         myquery = { "title": title }
         newvalues = { "$set": { "status": "done" } }
@@ -160,8 +157,10 @@ def move_to_done_item():            # Called to move a 'card' to 'done'
 
 @app.route('/move_to_todo_item', methods = ["PUT","GET","POST"])
 @login_required
-def move_to_todo_item():            # Called to move a 'card' BACK to 'todo' (was useful)
-    if (current_user_role == "writer"):
+def move_to_todo_item():            #  Called to move a 'card' BACK to 'todo' (was useful)
+    
+    write_permission_user=(current_user.name)
+    if (write_permission_user == "britboy4321"):
         title = request.form['item_title']
         myquery = { "title": title }
         newvalues = { "$set": { "status": "todo" } }

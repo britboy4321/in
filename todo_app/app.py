@@ -49,6 +49,7 @@ client_secret=os.environ["client_secret"]           # For security
 mongo_client_pass=os.environ["mongo_client_pass"]
 client = pymongo.MongoClient('mongodb://britboytodoapp:' + mongo_client_pass + '@britboytodoapp.mongo.cosmos.azure.com:10255/DefaultDatabase?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@britboytodoapp@')
 
+
 db = client.gettingStarted              # Database to be used
 olddate = (datetime.now() - timedelta(days=5))   # Mongo: Used later to hide items older than 5 days
 
@@ -60,6 +61,8 @@ print ("Program starting right now")
 @app.route('/', methods = ["GET","PUT"])
 @login_required
 def index():
+
+
     mongosuperlist=[]               # The name of the Mongo OVERALL list with all items in it
     mongo_view_model=[]             # The name of the Mongo TO DO list (section of collection)
     mongo_view_model_doing=[]       # The name of the Mongo DOING list (section of collection)

@@ -6,13 +6,15 @@ script:
 - FLASK_ENV=development
 - docker build --target test --tag todoapptest .
 - docker run -p 5000:5000 todoapptest
-- docker build --target production -f Dockerfile --tag $DOCKERHUB_USERNAME/todoapp .
+- docker build --target production -f Dockerfile --tag $DOCKERHUB_USERNAME/todoapp
+  .
 - echo $dockerhub_password | docker login --username $DOCKERHUB_USERNAME --password-stdin
 - echo "Now for the push"
 - echo "-------------------"
 - docker push $DOCKERHUB_USERNAME/todoapp
 
-# module 8 Part 3:  Continous deployment
+
+
 
 - docker pull britboy4321/todoapp      #  Ensure that we have latest version (possibly not required)
 - docker tag britboy4321/todoapp registry.heroku.com/todoappbritboy/web  # Tag it ready for Heroku

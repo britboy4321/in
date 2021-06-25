@@ -1,3 +1,4 @@
+
 # Docker Container :  To do list
 Python code interacts with MongoDB to give a unique front end interacting with Mongo systems.  
 
@@ -9,6 +10,7 @@ OAUTH Security implemented.
 
 This application currently does not allow anonymous login.
 A valid github ID and password are required.
+
 
 Getting Started
 

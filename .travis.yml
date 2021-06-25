@@ -1,6 +1,14 @@
+install:
+- wget https://releases.hashicorp.com/terraform/"$TF_VERSION"/terraform_"$TF_VERSION"_linux_amd64.zip
+- unzip terraform_"$TF_VERSION"_linux_amd64.zip
+- sudo mv terraform /usr/local/bin/
+- rm terraform_"$TF_VERSION"_linux_amd64.zip
+- terraform init
+
+before_deploy:
+- terraform apply -var prefix="" -var location="uk south" -var client_id="$variables_client_id" -var client_secret="$variables_client_secret" -auto-approve
 script:
-- echo "This is Daves Mondo module 9 work again"
-- echo "---------------------------------"
+
 - FLASK_APP=todo_app/app
 - FLASK_ENV=development
 - docker build --target test --tag todoapptest .
@@ -11,17 +19,39 @@ script:
 - echo "Now for the push"
 - echo "-------------------"
 - docker push $DOCKERHUB_USERNAME/todoapp
-- docker pull britboy4321/todoapp
-- docker tag britboy4321/todoapp registry.heroku.com/todoappbritboy/web
+
+
+# module 8 Part 3:  Continous deployment
+
+- docker pull britboy4321/todoapp      #  Ensure that we have latest version (possibly not required)
+- docker tag britboy4321/todoapp registry.heroku.com/todoappbritboy/web  # Tag it ready for Heroku
 - docker login --username=drawlinson48@gmail.com --password=$Heroku_finalpass2 registry.heroku.com
-- docker push registry.heroku.com/todoappbritboy/web
+- docker push registry.heroku.com/todoappbritboy/web   # put it onto Heroku
+
 - echo "CONTINUOUS DEPLOYMENT SETUP COMPLETED NOW"
 - echo "-----------------------------------------"
-- echo "TIME FOR ACTUAL DEPLOY and RELEASE NOW"
-- echo "--------------------------------------"
+# ---
+- echo "TIME FOR ACTUAL DEPLOY and RELEASE NOW.."
+- echo "----------------------------------------"
+
 deploy:
   provider: script
-  script: heroku container:release web --app todoappbritboy
-  on:
-    branch: module9
-  
+  script: bash scripts/deploy.sh
+
+    # Very end of module 12 - put here theoretically - as my travis is out of credit
+    
+  on: 
+    branch:
+    - master
+    - Module10
+    - module10
+    - Module11
+    - module11
+    - Module12
+    - module12
+    - Module13
+    - module13
+    - Module14
+    - module14
+    - Module15
+    - module15

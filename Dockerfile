@@ -34,7 +34,8 @@ COPY ./todo_app/app.py ./todo_app/app.py
 COPY ./todo_app/todo.py ./todo_app/todo.py
 COPY ./todo_app/models/view_model.py ./todo_app/models/view_model.py
 COPY ./todo_app/templates/layout.html ./todo_app/templates/layout.html
-COPY ./todo_app/templates/index.html ./todo_app/templates/index.html
+COPY ./todo_app/templates/indexread.html ./todo_app/templates/indexread.html
+COPY ./todo_app/templates/indexwrite.html ./todo_app/templates/indexwrite.html
 COPY ./poetry.toml ./poetry.toml
 COPY ./pyproject.toml ./pyproject.toml
 COPY ./todo_app/wsgi.py ./todo_app/wsgi.py
@@ -44,17 +45,19 @@ COPY ./todo_app/test_e2e.py ./todo_app/test_e2e.py
 
 #Install Poetry
 
-# RUN poetry install    <-- old command kept here for prosperity!
 RUN poetry config virtualenvs.create false --local && poetry install
 
+# poetry add oauthlib flask-login
 
 #Entrypoints
 
 #Production Gunicorn
 FROM base as production
 
-ENTRYPOINT "poetry run gunicorn --bind 0.0.0.0:$PORT todo_app.wsgi:app"
-
+ENTRYPOINT poetry run gunicorn --bind 0.0.0.0:$PORT todo_app.wsgi:app
+# ENTRYPOINT poetry run gunicorn --bind 0.0.0.0:$PORT
+# ENTRYPOINT "poetry run flask run --host=0.0.0.0:$PORT"
+# ENTRYPOINT "poetry run flask run"
 #Development Flask
 
 FROM base as development

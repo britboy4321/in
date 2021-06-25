@@ -1,6 +1,17 @@
 import os
 from datetime import datetime
 from dateutil import *
+from flask_login import UserMixin
+
+class User(UserMixin): 
+    def __init__(self,name):
+        self.name = name
+    def get_id(self):
+        return (self.name)
+    # def __str__(self):
+    #     return(self.name)
+
+
 class Newviewmodel:
     def __init__(self, items):
         self.items1 = items
@@ -16,7 +27,7 @@ class Todo:
         self.carddate = carddate
 
     @classmethod
-    def from_trello_card(cls, card):
+    def from_trello_card(cls, card):                # Possibly can all be deleted
         id = card["id"]
         title = card["name"]
         status = ""
@@ -46,12 +57,6 @@ class Todo:
         title = ""
         status = "Todo"            # Will be overwritten by app 
         mongodate = datetime.today().strftime('%Y-%m-%d')
-        
-        # status = ""
-        # firstcarddate = card["dateLastActivity"]
-        # carddate = firstcarddate[:10]               # Just need date bit, not the time etc
-        # currentcarddate = datetime.today().strftime('%Y-%m-%d') # Now just need today's date
-        # currentcarddatefor = parser.parse(currentcarddate)  # The above line turned it into a string, turn back into a date
-        # indateformat = datetime.strptime(carddate,'%Y-%m-%d')   
-        
+
+
 

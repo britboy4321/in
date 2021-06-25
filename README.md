@@ -1,5 +1,16 @@
-# Docker Container :  To do list new computer!
-Python code interacts with MongoDB to give a unique front end interacting with Mongo systems
+
+# Docker Container :  To do list
+Python code interacts with MongoDB to give a unique front end interacting with Mongo systems.  
+
+Hosted on Azure.
+
+Terraform implemented
+
+OAUTH Security implemented.
+
+This application currently does not allow anonymous login.
+A valid github ID and password are required.
+
 
 Getting Started
 
@@ -15,13 +26,25 @@ Docker image 3 (tag:  test):
 Flask test environment, built using:
 docker build --target test --tag my-test-image .
 
-## Latest Updates:  Travis CI environment setting up
+## Latest Updates:  Security (oauthlib) added
 
 ## Prerequisities
 
+Update .env (see .env.template for guidance)
+
+To run locally, 
+
+(poetry add oauthlib flask-login is recorded in pyproject.toml)
+
+1)  For a security reason add this to .env file:
+
+OAUTHLIB_INSECURE_TRANSPORT=1
+
+then run:
+
 In order to run this container you'll need 
 1) Docker installed
-2) A file, recommended called .env, that has at least below elements (found using Trello API    TO BE UPDATED when trello retired and replaced with MongoDB):
+2) A file, recommended called .env, that has at least below elements :
 
 Minimum variable file:
 # Flask server configuration.
@@ -31,11 +54,6 @@ FLASK_ENV=development
 # Change the following values for local development.
 SECRET_KEY=secret-key
 key=   Enter value here                 NO LONGER REQUIRED (FROM OLDER VERSION)
-token= Enter value here                 NO LONGER REQUIRED (FROM OLDER VERSION)
-todo_listid= Enter value here           NO LONGER REQUIRED (FROM OLDER VERSION)
-doing_listid= Enter value here          NO LONGER REQUIRED (FROM OLDER VERSION)
-done_listid= Enter value here           NO LONGER REQUIRED (FROM OLDER VERSION)
-board_id= Enter value here              NO LONGER REQUIRED (FROM OLDER VERSION)
 mongopass = Enter mongo password here
 FUTURE:  Will add mongoid variable into code (presently hard-coded to dev userid)
 

@@ -91,7 +91,7 @@ print ("Program starting right now")
 @app.route('/', methods = ["GET","PUT"])
 @login_required
 def index():
-    mongosuperlist=[]               # The name of the Mongo OVERALL list with all items in it
+    mongosuperlist=[]               # The name of the Mongo OVERALL list with all items in it  
     mongo_view_model=[]             # The name of the Mongo TO DO list (section of collection)
     mongo_view_model_doing=[]       # The name of the Mongo DOING list (section of collection)
     mongo_view_model_done=[]        # The name of the Mongo DONE list (section of collection)

@@ -67,7 +67,7 @@ resource "azurerm_app_service" "main" {
 
 resource "azurerm_cosmosdb_account" "main" {
   name                = "${var.prefix}britboytodoappterr"
-  resource_group_name = "AmericanExpress1_DaveRawlinson_ProjectExercise"
+  resource_group_name = data.azurerm_resource_group.main.name
   offer_type          = "Standard"
   kind                = "MongoDB"
   # lifecycle {prevent_destroy = true}   # Prevent DB destroy

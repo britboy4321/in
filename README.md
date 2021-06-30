@@ -118,3 +118,18 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+ADDITIONAL:
+
+To stop constantly being asked to provide client_id and client_secret on a manual terraform apply .. add secret file vv.tfvars:  syntax:
+
+
+
+client_id = "xxxxxxxxxxxxxxxxxxx"
+client_secret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+and run 
+
+terraform apply -var-file="vv.tfvars"
+
+(Suggestion .. add this to .gitignore  ... contains secrets)

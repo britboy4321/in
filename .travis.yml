@@ -5,8 +5,6 @@ install:
 - rm terraform_"$TF_VERSION"_linux_amd64.zip
 - terraform init
 
-before_deploy:
-- terraform apply -var prefix="" -var location="uk south" -var client_id="$variables_client_id" -var client_secret="$variables_client_secret" -auto-approve
 script:
 
 - FLASK_APP=todo_app/app
@@ -31,6 +29,10 @@ script:
 # ---
 - echo "TIME FOR ACTUAL DEPLOY and RELEASE NOW.."
 - echo "----------------------------------------"
+
+before_deploy:
+- terraform apply -var prefix="" -var location="uk south" -var client_id="$variables_client_id" -var client_secret="$variables_client_secret" -auto-approve
+
 
 deploy:
   provider: script

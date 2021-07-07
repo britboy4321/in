@@ -17,7 +17,7 @@ script:
 - echo "-------------------"
 - docker push $DOCKERHUB_USERNAME/todoapp
 
-# module 8 Part 3:  Continous deployment.  Check.
+# module 8 Part 3:  Continous deployment.  Check.  Looks good
 
 - docker pull britboy4321/todoapp      #  Ensure that we have latest version (possibly not required)
 - docker tag britboy4321/todoapp registry.heroku.com/todoappbritboy/web  # Tag it ready for Heroku

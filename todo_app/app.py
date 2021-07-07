@@ -8,19 +8,17 @@ from flask_login.utils import login_user
 
 # Loggly 
 
-
-import logging
-import logging.config
+#import logging
+#import logging.config
 import time
-import loggly.handlers
-from logging import Formatter
-from loggly.handlers import HTTPSHandler
+#from logging import Formatter
+#from loggly.handlers import HTTPSHandler
 
-logging.config.fileConfig('python.conf')
-logging.Formatter.converter = time.gmtime
-logger = logging.getLogger('myLogger')
+#logging.config.fileConfig('python.conf')
+#logging.Formatter.converter = time.gmtime
+#logger = logging.getLogger('myLogger')
 
-logger.info('Test log')
+#logger.info('Test log')
 
 
 # from flask import LoginManager and login required
@@ -49,15 +47,14 @@ LOGGLY_TOKEN = os.environ["LOGGLY_TOKEN"]
 #################################
 login_manager = LoginManager()
 client_id=os.environ["client_id"] 
-app.logger.info("Login client id is $s:", client_id)
 Clientsecurity = WebApplicationClient(client_id)
 LOG_LEVEL=os.environ["LOG_LEVEL"]       # I wanted to get the log_level from .env on below line but couldn't get it to work (syntax error)
-app.logger.setLevel(logging.DEBUG)      # So Set logging level as specified  
+          # pp.logger.setLevel(logging.DEBUG)      # So Set logging level as specified  
 @login_manager.unauthorized_handler
 def unauthenticated():
-    app.logger.warning("Unauthorised, yet!")	
+    # app.logger.warning("Unauthorised, yet!")	
     result = Clientsecurity.prepare_request_uri("https://github.com/login/oauth/authorize")
-    app.logger.info("The place we're about to go to is ... $s:", result)
+    # app.logger.info("The place we're about to go to is ... $s:", result)
    
     return redirect(result)
 
@@ -70,14 +67,14 @@ def load_user(user_id):
 login_manager.init_app(app)
 client_id=os.environ["client_id"]                   # Possibly not needed, defined earlier
 client_secret=os.environ["client_secret"]           # For security
-app.logger.info("Getting Mongo connection string")
+# app.logger.info("Getting Mongo connection string")
 mongodb_connection_string = os.environ["MONGODB_CONNECTION_STRING"]
-app.logger.info("Setting client")
+# app.logger.info("Setting client")
 client = pymongo.MongoClient(mongodb_connection_string)
-app.logger.info("Client is  $s:", client)
-app.logger.info("mongodb_connection_string is ... $s:", mongodb_connection_string)
+# app.logger.info("Client is  $s:", client)
+# app.logger.info("mongodb_connection_string is ... $s:", mongodb_connection_string)
 db = client.gettingStarted              # Database to be used
-app.logger.info("Database to be used is... $s:", db)
+# app.logger.info("Database to be used is... $s:", db)
 
 
 
@@ -104,7 +101,7 @@ def index():
         handler.setFormatter(
             Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
             )
-        app.logger.addHandler(handler)
+        # app.logger.addHandler(handler)
 
 
 
@@ -163,7 +160,7 @@ def index():
 @app.route('/addmongoentry', methods = ["POST"])
 @login_required
 def mongoentry():
-    app.logger.warning("Mongo entry being added")
+    # app.logger.warning("Mongo entry being added")
     write_permission_user=(current_user.name)
     if (write_permission_user == "britboy4321"):
         name = request.form['title']
@@ -174,7 +171,7 @@ def mongoentry():
 @app.route('/move_to_doing_item', methods = ["PUT","GET","POST"])
 @login_required
 def move_to_doing_item():           # Called to move a 'card' to 'doing'
-    app.logger.warning("Mongo entry being moved to doing")
+    # app.logger.warning("Mongo entry being moved to doing")
     write_permission_user=(current_user.name)
     if (write_permission_user == "britboy4321"):
         title = request.form['item_title']
@@ -188,7 +185,7 @@ def move_to_doing_item():           # Called to move a 'card' to 'doing'
 @app.route('/move_to_done_item', methods = ["PUT","GET","POST"])
 @login_required
 def move_to_done_item():            # Called to move a 'card' to 'done'
-    app.logger.warning("Mongo entry being moved to done")
+    # app.logger.warning("Mongo entry being moved to done")
     write_permission_user=(current_user.name)
     if (write_permission_user == "britboy4321"):
         title = request.form['item_title']
@@ -202,7 +199,7 @@ def move_to_done_item():            # Called to move a 'card' to 'done'
 @app.route('/move_to_todo_item', methods = ["PUT","GET","POST"])
 @login_required
 def move_to_todo_item():            # Called to move a 'card' BACK to 'todo' (was useful)
-    app.logger.warning("Mongo entry being moved back to todo")
+    # app.logger.warning("Mongo entry being moved back to todo")
     write_permission_user=(current_user.name)
     if (write_permission_user == "britboy4321"):
         title = request.form['item_title']

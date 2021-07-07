@@ -8,17 +8,17 @@ from flask_login.utils import login_user
 
 # Loggly 
 
-#import logging
-#import logging.config
+import logging
+import logging.config
 import time
-#from logging import Formatter
-#from loggly.handlers import HTTPSHandler
+from logging import Formatter
+from loggly.handlers import HTTPSHandler
 
-#logging.config.fileConfig('python.conf')
-#logging.Formatter.converter = time.gmtime
-#logger = logging.getLogger('myLogger')
+logging.config.fileConfig('python.conf')
+logging.Formatter.converter = time.gmtime
+logger = logging.getLogger('myLogger')
 
-#logger.info('Test log')
+logger.info('Test log')
 
 
 # from flask import LoginManager and login required

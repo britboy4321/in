@@ -15,7 +15,7 @@ import time
 from loggly.handlers import HTTPSHandler
 from logging import Formatter
 import os, sys
-print ("Current working dir : %s" % os.getcwd()    )
+print ("Current working directory : %s" % os.getcwd()    )
 
 logging.config.fileConfig('python.conf')
 logging.Formatter.converter = time.gmtime
@@ -33,8 +33,6 @@ from datetime import datetime, timedelta   # Needed for Mongo dates for 'older' 
 from todo_app.todo import User              #Import simple user class
 from oauthlib.oauth2 import WebApplicationClient # Security prep work
 
-print("Current working directory")
-print (os.getcwd())
 
 # import pytest   (Module 3 not completed yet but will need this stuff)
 from todo_app.models.view_model import ViewModel
@@ -55,13 +53,15 @@ login_manager = LoginManager()
 client_id=os.environ["client_id"] 
 Clientsecurity = WebApplicationClient(client_id)
 LOG_LEVEL=os.environ["LOG_LEVEL"]       # I wanted to get the log_level from .env on below line but couldn't get it to work (syntax error)
+### LOG_LEVEL="DEBUG"
           # pp.logger.setLevel(logging.DEBUG)      # So Set logging level as specified  
 @login_manager.unauthorized_handler
 def unauthenticated():
     # app.logger.warning("Unauthorised, yet!")	
+    print("Unauthorised, yet!")
     result = Clientsecurity.prepare_request_uri("https://github.com/login/oauth/authorize")
     # app.logger.info("The place we're about to go to is ... $s:", result)
-   
+    print(result)
     return redirect(result)
 
 	# Github OAuth flow when unauthenticated
@@ -101,12 +101,10 @@ def index():
     mongo_view_model_olddone=[]     # Older 'done' items to be stored here (section of collection)
     mongosuperlist = list(db.newposts.find()) 
  
-
     if app.config['LOGGLY_TOKEN'] is not None:
         handler = HTTPSHandler(f'https://logs-01.loggly.com/inputs/{app.config["LOGGLY_TOKEN"]}/tag/todo-app')
-        handler.setFormatter(
-            Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
-            )
+        handler.setFormatter(Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
+       )
         app.logger.addHandler(handler)
 
 

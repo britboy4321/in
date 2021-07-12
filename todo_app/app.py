@@ -101,8 +101,8 @@ def index():
     mongo_view_model_olddone=[]     # Older 'done' items to be stored here (section of collection)
     mongosuperlist = list(db.newposts.find()) 
  
-    if app.config['LOGGLY_TOKEN'] is not None:
-        handler = HTTPSHandler(f'https://logs-01.loggly.com/inputs/{app.config["LOGGLY_TOKEN"]}/tag/todo-app')
+    if LOGGLY_TOKEN is not None:
+        handler = HTTPSHandler(f'https://logs-01.loggly.com/inputs/{LOGGLY_TOKEN}/tag/todo-app')
         handler.setFormatter(Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
        )
         app.logger.addHandler(handler)

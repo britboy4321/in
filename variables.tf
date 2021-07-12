@@ -12,3 +12,6 @@ variable "client_id" {
 variable "client_secret"  {
   description = "The client secret"
 }
+variable "LOGGLY_TOKEN"   {
+  description = "The Loggly token"
+}

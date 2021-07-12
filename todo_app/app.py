@@ -16,10 +16,7 @@ from loggly.handlers import HTTPSHandler
 from logging import Formatter
 import os, sys
 print ("Current working dir : %s" % os.getcwd()    )
-#log_file_path = path.join(path.dirname(path.abspath(__file__)), 'python.conf')
-#logging.config.fileConfig(log_file_path)
 
-# print(os.getcwd())
 logging.config.fileConfig('python.conf')
 logging.Formatter.converter = time.gmtime
 logger = logging.getLogger('myLogger')

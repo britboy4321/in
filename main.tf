@@ -49,6 +49,8 @@ resource "azurerm_app_service" "main" {
         "DOCKER_REGISTRY_SERVER_URL" = "https://index.docker.io"
         "client_id" = var.client_id
         "client_secret" = var.client_secret
+        "LOGGLY_TOKEN"= var.LOGGLY_TOKEN
+        "LOG_LEVEL"="DEBUG"
 # I REALISE OTHER THINGS COULD BE IN variables.tf BUT AM RUNNING OUT OF TIME - SO PROVING I UNDERSTAND THE PRINCIPLE
         "DOCKER_ENABLE_CI" = "true"
         "DOCKER_REGISTRY_SERVER_URL" = "https://index.docker.io/v1"
@@ -60,6 +62,7 @@ resource "azurerm_app_service" "main" {
         "WEBSITES_CONTAINER_START_TIME_LIMIT" = "1400"
         "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
         "OAUTHLIB_INSECURE_TRANSPORT"="1"
+
 
   }
 }

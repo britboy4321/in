@@ -31,7 +31,7 @@ script:
 - echo "----------------------------------------"
 
 before_deploy:
-- terraform apply -var prefix="" -var location="uk south" -var client_id="$variables_client_id" -var client_secret="$variables_client_secret" -auto-approve
+- terraform apply -var prefix="" -var location="uk south" -var client_id="$variables_client_id" -var client_secret="$variables_client_secret" -var LOGGLY_TOKEN="$LOGGLY_TOKEN" -auto-approve
 
 
 deploy:

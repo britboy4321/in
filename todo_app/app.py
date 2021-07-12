@@ -52,7 +52,7 @@ LOGGLY_TOKEN = os.environ["LOGGLY_TOKEN"]
 login_manager = LoginManager()
 client_id=os.environ["client_id"] 
 Clientsecurity = WebApplicationClient(client_id)
-LOG_LEVEL=os.environ["LOG_LEVEL"]       # I wanted to get the log_level from .env on below line but couldn't get it to work (syntax error)
+LOG_LEVEL=os.environ["LOG_LEVEL", "DEBUG"]
 @login_manager.unauthorized_handler
 def unauthenticated():
     print("Unauthorised, yet!")

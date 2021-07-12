@@ -16,8 +16,7 @@ from loggly.handlers import HTTPSHandler
 from logging import Formatter
 
 
-
-logging.config.fileConfig('..\python.conf')
+logging.config.fileConfig('python.conf')
 logging.Formatter.converter = time.gmtime
 logger = logging.getLogger('myLogger')
 
@@ -32,6 +31,9 @@ import pymongo   # required for new mongo database   EXERCISE 9
 from datetime import datetime, timedelta   # Needed for Mongo dates for 'older' records seperation
 from todo_app.todo import User              #Import simple user class
 from oauthlib.oauth2 import WebApplicationClient # Security prep work
+
+print("Current working directory")
+print (os.getcwd())
 
 # import pytest   (Module 3 not completed yet but will need this stuff)
 from todo_app.models.view_model import ViewModel

@@ -14,6 +14,8 @@ import time
 
 from loggly.handlers import HTTPSHandler
 from logging import Formatter
+# from os import path
+
 
 
 logging.config.fileConfig('python.conf')

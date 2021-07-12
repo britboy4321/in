@@ -42,8 +42,6 @@ COPY ./todo_app/wsgi.py ./todo_app/wsgi.py
 COPY ./todo_app/test_unit.py ./todo_app/test_unit.py
 COPY ./todo_app/test_integration.py ./todo_app/test_integration.py
 COPY ./todo_app/test_e2e.py ./todo_app/test_e2e.py
-COPY ./python.conf ./python.conf
-COPY ./python.conf ./todo_app/python.conf
 
 #Install Poetry
 

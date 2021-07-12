@@ -77,8 +77,6 @@ app.logger.info("Getting Mongo connection string")
 mongodb_connection_string = os.environ["MONGODB_CONNECTION_STRING"]
 app.logger.info("Setting client")
 client = pymongo.MongoClient(mongodb_connection_string)
-# app.logger.info("Client is  $s:", client)
-# app.logger.info("mongodb_connection_string is ... $s:", mongodb_connection_string)
 db = client.gettingStarted              # Database to be used
 app.logger.info("Database to be used is... $s:", db)
 

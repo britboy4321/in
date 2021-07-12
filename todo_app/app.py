@@ -73,14 +73,14 @@ def load_user(user_id):
 login_manager.init_app(app)
 client_id=os.environ["client_id"]                   # Possibly not needed, defined earlier
 client_secret=os.environ["client_secret"]           # For security
-# app.logger.info("Getting Mongo connection string")
+app.logger.info("Getting Mongo connection string")
 mongodb_connection_string = os.environ["MONGODB_CONNECTION_STRING"]
-# app.logger.info("Setting client")
+app.logger.info("Setting client")
 client = pymongo.MongoClient(mongodb_connection_string)
 # app.logger.info("Client is  $s:", client)
 # app.logger.info("mongodb_connection_string is ... $s:", mongodb_connection_string)
 db = client.gettingStarted              # Database to be used
-# app.logger.info("Database to be used is... $s:", db)
+app.logger.info("Database to be used is... $s:", db)
 
 
 
@@ -164,7 +164,7 @@ def index():
 @app.route('/addmongoentry', methods = ["POST"])
 @login_required
 def mongoentry():
-    # app.logger.warning("Mongo entry being added")
+    app.logger.warning("Mongo entry being added")
     write_permission_user=(current_user.name)
     if (write_permission_user == "britboy4321"):
         name = request.form['title']
@@ -175,7 +175,7 @@ def mongoentry():
 @app.route('/move_to_doing_item', methods = ["PUT","GET","POST"])
 @login_required
 def move_to_doing_item():           # Called to move a 'card' to 'doing'
-    # app.logger.warning("Mongo entry being moved to doing")
+    app.logger.warning("Mongo entry being moved to doing")
     write_permission_user=(current_user.name)
     if (write_permission_user == "britboy4321"):
         title = request.form['item_title']
@@ -189,7 +189,7 @@ def move_to_doing_item():           # Called to move a 'card' to 'doing'
 @app.route('/move_to_done_item', methods = ["PUT","GET","POST"])
 @login_required
 def move_to_done_item():            # Called to move a 'card' to 'done'
-    # app.logger.warning("Mongo entry being moved to done")
+    app.logger.warning("Mongo entry being moved to done")
     write_permission_user=(current_user.name)
     if (write_permission_user == "britboy4321"):
         title = request.form['item_title']
@@ -203,7 +203,7 @@ def move_to_done_item():            # Called to move a 'card' to 'done'
 @app.route('/move_to_todo_item', methods = ["PUT","GET","POST"])
 @login_required
 def move_to_todo_item():            # Called to move a 'card' BACK to 'todo' (was useful)
-    # app.logger.warning("Mongo entry being moved back to todo")
+    app.logger.warning("Mongo entry being moved back to todo")
     write_permission_user=(current_user.name)
     if (write_permission_user == "britboy4321"):
         title = request.form['item_title']

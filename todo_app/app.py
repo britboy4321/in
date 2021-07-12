@@ -11,10 +11,13 @@ from flask_login.utils import login_user
 import logging
 import logging.config
 import time
-from logging import Formatter
-from loggly.handlers import HTTPSHandler
 
-logging.config.fileConfig('python.conf')
+from loggly.handlers import HTTPSHandler
+from logging import Formatter
+
+
+
+logging.config.fileConfig('..\python.conf')
 logging.Formatter.converter = time.gmtime
 logger = logging.getLogger('myLogger')
 

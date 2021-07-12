@@ -223,11 +223,11 @@ def login():
         "https://github.com/login/oauth/access_token",
         authorization_response=request.url
     )
-    print("REACHED HERE - CLIENT SECURITY INFO PRINTED BELOW FOR DEBUGGING:")
-    print(Clientsecurity.prepare_token_request(
-        "https://github.com/login/oauth/access_token",
-        authorization_response=request.url
-    ))
+    #print("REACHED HERE - CLIENT SECURITY INFO PRINTED BELOW FOR DEBUGGING:")
+    #print(Clientsecurity.prepare_token_request(
+    #    "https://github.com/login/oauth/access_token",
+    #    authorization_response=request.url
+    #))
     print("REACHED TOKEN RESPONSE")
     token_response = requests.post(
         url,

@@ -8,20 +8,12 @@ from flask_login.utils import login_user
 
 # Loggly 
 
-# import logging
 import logging.config
-# import time
 
 from loggly.handlers import HTTPSHandler
 from logging import Formatter
 import os, sys
 print ("Current working directory : %s" % os.getcwd()    )
-
-# logging.config.fileConfig('python.conf')
-# logging.Formatter.converter = time.gmtime
-# logger = logging.getLogger('myLogger')
-
-# logger.info('Test log')
 
 
 # from flask import LoginManager and login required
@@ -59,7 +51,7 @@ def unauthenticated():
     app.logger.info("Unauthorised, yet")
 
     result = Clientsecurity.prepare_request_uri("https://github.com/login/oauth/authorize")
-    # app.logger.info("The place we're about to go to is ... $s:", result)
+
     print(result)
     return redirect(result)
 
@@ -106,7 +98,7 @@ def index():
 
 
 #  Create the various lists depending on status
-    counter=0                                           # Well, it works!
+    counter=0                                           
     for mongo_card in mongosuperlist:
         
         #A list of mongo rows from the collection called 'newposts' 

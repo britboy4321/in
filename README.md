@@ -77,6 +77,14 @@ RUN TESTS FOR APP:
 docker run --env-file .env -p 5000:5000 my-test-image
 
 
+RUNNING APP ON KUBERNETES - ensure secrets on pod:
+
+kubectl create secret generic loggly-token --from-literal=LOGGLY_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxx'
+kubectl create secret generic secret-key --from-literal=SECRET_KEY='xxxxxxxxxxx'
+kubectl create secret generic client-id --from-literal=client_id='xxxxxxxxxxxxxxxxxxxxxxxxx'
+kubectl create secret generic client-secret --from-literal=client_secret='xxxxxxxxxxxxxxxxxxxx'
+kubectl create secret generic mongodb-connection-string --from-literal=MONGODB_CONNECTION_STRING='mongodb://xxxxxxxxxxxxxxxxxxxxxxxxxxx'
+
 Authors.
 
 Dave Rawlinson

@@ -1,3 +1,4 @@
+
 # Docker Container :  To do list
 Python code interacts with MongoDB to give a unique front end interacting with Mongo systems.  
 
@@ -12,7 +13,9 @@ Able and setup to perform logging to loggly (loggly account needed - LOGGLY_TOKE
 This application currently does not allow anonymous login.
 A valid github ID and password are required.
 
+
 Advanced kubernetes implemented (module 14)
+
 
 Getting Started
 

@@ -49,6 +49,8 @@ resource "azurerm_app_service" "main" {
         "DOCKER_REGISTRY_SERVER_URL" = "https://index.docker.io"
         "client_id" = var.client_id
         "client_secret" = var.client_secret
+        "LOGGLY_TOKEN"= var.LOGGLY_TOKEN
+        "LOG_LEVEL"="DEBUG"
 # I REALISE OTHER THINGS COULD BE IN variables.tf BUT AM RUNNING OUT OF TIME - SO PROVING I UNDERSTAND THE PRINCIPLE
         "DOCKER_ENABLE_CI" = "true"
         "DOCKER_REGISTRY_SERVER_URL" = "https://index.docker.io/v1"
@@ -60,13 +62,15 @@ resource "azurerm_app_service" "main" {
         "WEBSITES_CONTAINER_START_TIME_LIMIT" = "1400"
         "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
         "OAUTHLIB_INSECURE_TRANSPORT"="1"
+
+
   }
 }
 
 
 resource "azurerm_cosmosdb_account" "main" {
   name                = "${var.prefix}britboytodoappterr"
-  resource_group_name = "AmericanExpress1_DaveRawlinson_ProjectExercise"
+  resource_group_name = data.azurerm_resource_group.main.name
   offer_type          = "Standard"
   kind                = "MongoDB"
   # lifecycle {prevent_destroy = true}   # Prevent DB destroy
@@ -96,8 +100,8 @@ resource "azurerm_cosmosdb_account" "main" {
 
 resource "azurerm_cosmosdb_mongo_database" "main" {
   name                = "${var.prefix}britboydbterraform"
-  resource_group_name = resource.azurerm_cosmosdb_account.main.resource_group_name
-  account_name        = resource.azurerm_cosmosdb_account.main.name
+  resource_group_name = data.azurerm_resource_group.main.name
+  account_name        = azurerm_cosmosdb_account.main.name
   # throughput          = 400
 }
 

@@ -5,8 +5,6 @@ install:
 - rm terraform_"$TF_VERSION"_linux_amd64.zip
 - terraform init
 
-before_deploy:
-- terraform apply -var prefix="" -var location="uk south" -var client_id="$variables_client_id" -var client_secret="$variables_client_secret" -auto-approve
 script:
 
 - FLASK_APP=todo_app/app
@@ -21,7 +19,8 @@ script:
 - docker push $DOCKERHUB_USERNAME/todoapp
 
 
-# module 8 Part 3:  Continous deployment
+# module 8 Part 3:  Continous deployment.  Check.  Looks good
+
 
 - docker pull britboy4321/todoapp      #  Ensure that we have latest version (possibly not required)
 - docker tag britboy4321/todoapp registry.heroku.com/todoappbritboy/web  # Tag it ready for Heroku
@@ -34,12 +33,14 @@ script:
 - echo "TIME FOR ACTUAL DEPLOY and RELEASE NOW.."
 - echo "----------------------------------------"
 
-deploy:
-  provider: script
-  script: bash scripts/deploy.sh
+before_deploy:
+- terraform apply -var prefix="" -var location="uk south" -var client_id="$variables_client_id" -var client_secret="$variables_client_secret" -var LOGGLY_TOKEN="$variables_loggly_token" -auto-approve
 
-    # Very end of module 12 - put here theoretically - as my travis is out of credit
-    
+
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: bash scripts/deploy.sh    
   on: 
     branch:
     - master

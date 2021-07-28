@@ -1,8 +1,20 @@
 # SETUP INFO
 
+# Flask
+
 from flask import Flask, render_template, request, redirect, g, url_for, session
 from flask_login import LoginManager, login_required, current_user
 from flask_login.utils import login_user
+
+# Loggly 
+
+import logging.config
+
+from loggly.handlers import HTTPSHandler
+from logging import Formatter
+import os, sys
+print ("Current working directory : %s" % os.getcwd()    )
+
 
 # from flask import LoginManager and login required
 import requests                     # Import the whole of requests
@@ -13,6 +25,7 @@ from datetime import datetime, timedelta   # Needed for Mongo dates for 'older' 
 from todo_app.todo import User              #Import simple user class
 from oauthlib.oauth2 import WebApplicationClient # Security prep work
 
+
 # import pytest   (Module 3 not completed yet but will need this stuff)
 from todo_app.models.view_model import ViewModel
 from todo_app.todo import Todo
@@ -22,20 +35,25 @@ app = Flask(__name__)
 
 app.secret_key = os.environ["SECRET_KEY"]
 
+##  Set token for module 13 - loggly
+
+LOGGLY_TOKEN = os.environ["LOGGLY_TOKEN"]
+
 #################################
 #  MODULE 10 LOGIN MANAGER SETUP
 #################################
 login_manager = LoginManager()
 client_id=os.environ["client_id"] 
 Clientsecurity = WebApplicationClient(client_id)
-
+LOG_LEVEL=os.environ["LOG_LEVEL"]
 @login_manager.unauthorized_handler
 def unauthenticated():
-    print("unauthenticated, yet!") 	
-    result = Clientsecurity.prepare_request_uri("https://github.com/login/oauth/authorize")
-    print("The place we're about to go to is called...")
-    print(result)
+    print("Unauthorised, yet!")
+    app.logger.info("Unauthorised, yet")
 
+    result = Clientsecurity.prepare_request_uri("https://github.com/login/oauth/authorize")
+
+    print(result)
     return redirect(result)
 
 	# Github OAuth flow when unauthenticated
@@ -54,20 +72,13 @@ client = pymongo.MongoClient('mongodb+srv://britboy4321:' + mongopassword + '@cl
 login_manager.init_app(app)
 client_id=os.environ["client_id"]                   # Possibly not needed, defined earlier
 client_secret=os.environ["client_secret"]           # For security
-
-print("Getting Mongo connection string")
-
+app.logger.debug("Getting Mongo connection string")
 mongodb_connection_string = os.environ["MONGODB_CONNECTION_STRING"]
-print("Setting client")
+app.logger.debug("Setting client")
 client = pymongo.MongoClient(mongodb_connection_string)
-print("Client is")
-print(client)
-
-print("mongodb_connection_string is ...")
-print(mongodb_connection_string)
 db = client.gettingStarted              # Database to be used
-print("Database to be used is:")
-print(db)
+app.logger.debug("Database to be used is... $s:", db)
+
 
 
 olddate = (datetime.now() - timedelta(days=5))   # Mongo: Used later to hide items older than 5 days
@@ -81,18 +92,23 @@ print ("Program starting right now")
 @login_required
 def index():
 
-    thislist=[]                     # Possibly no longer needed .. Trello remnant       
-    superlist=[]                    # Possibly no longer needed .. Trello remnant
+    mongosuperlist=[]               # The name of the Mongo OVERALL list with all items in it  
 
-    mongosuperlist=[]               # The name of the Mongo OVERALL list with all items in it
     mongo_view_model=[]             # The name of the Mongo TO DO list (section of collection)
     mongo_view_model_doing=[]       # The name of the Mongo DOING list (section of collection)
     mongo_view_model_done=[]        # The name of the Mongo DONE list (section of collection)
     mongo_view_model_olddone=[]     # Older 'done' items to be stored here (section of collection)
     mongosuperlist = list(db.newposts.find()) 
  
+    if LOGGLY_TOKEN is not None:
+        handler = HTTPSHandler(f'https://logs-01.loggly.com/inputs/{LOGGLY_TOKEN}/tag/todo-app')
+        handler.setFormatter(Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
+       )
+        app.logger.addHandler(handler)
+
+
 #  Create the various lists depending on status
-    counter=0                                           # Well, it works!
+    counter=0                                           
     for mongo_card in mongosuperlist:
         
         #A list of mongo rows from the collection called 'newposts' 
@@ -146,6 +162,7 @@ def index():
 @app.route('/addmongoentry', methods = ["POST"])
 @login_required
 def mongoentry():
+    app.logger.info("Mongo entry being added")
     write_permission_user=(current_user.name)
     if (write_permission_user == "britboy4321"):
         name = request.form['title']
@@ -156,6 +173,7 @@ def mongoentry():
 @app.route('/move_to_doing_item', methods = ["PUT","GET","POST"])
 @login_required
 def move_to_doing_item():           # Called to move a 'card' to 'doing'
+    app.logger.info("Mongo entry being moved to doing")
     write_permission_user=(current_user.name)
     if (write_permission_user == "britboy4321"):
         title = request.form['item_title']
@@ -169,6 +187,7 @@ def move_to_doing_item():           # Called to move a 'card' to 'doing'
 @app.route('/move_to_done_item', methods = ["PUT","GET","POST"])
 @login_required
 def move_to_done_item():            # Called to move a 'card' to 'done'
+    app.logger.info("Mongo entry being moved to done")
     write_permission_user=(current_user.name)
     if (write_permission_user == "britboy4321"):
         title = request.form['item_title']
@@ -182,6 +201,7 @@ def move_to_done_item():            # Called to move a 'card' to 'done'
 @app.route('/move_to_todo_item', methods = ["PUT","GET","POST"])
 @login_required
 def move_to_todo_item():            # Called to move a 'card' BACK to 'todo' (was useful)
+    app.logger.warning("Mongo entry being moved back to todo - Process Issue")  # I want to keep this as WARNING as something is going wrong if done items arn't done!
     write_permission_user=(current_user.name)
     if (write_permission_user == "britboy4321"):
         title = request.form['item_title']
@@ -196,16 +216,12 @@ def move_to_todo_item():            # Called to move a 'card' BACK to 'todo' (wa
 def login():
 
     # Get the access_token
-
+    print("ABOUT TO PREPARE THE TOKEN REQUIRED")
     url, headers, body = Clientsecurity.prepare_token_request(
         "https://github.com/login/oauth/access_token",
         authorization_response=request.url
     )
-    print("REACHED HERE - CLIENT SECURITY INFO PRINTED BELOW FOR DEBUGGING:")
-    print(Clientsecurity.prepare_token_request(
-        "https://github.com/login/oauth/access_token",
-        authorization_response=request.url
-    ))
+
     print("REACHED TOKEN RESPONSE")
     token_response = requests.post(
         url,

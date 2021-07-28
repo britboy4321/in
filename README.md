@@ -4,12 +4,17 @@ Python code interacts with MongoDB to give a unique front end interacting with M
 
 Hosted on Azure.
 
-Terraform implemented
+Terraform implemented.
 
 OAUTH Security implemented.
 
+Able and setup to perform logging to loggly (loggly account needed - LOGGLY_TOKEN set in local .env for local running)
+
 This application currently does not allow anonymous login.
 A valid github ID and password are required.
+
+
+Advanced kubernetes implemented (module 14)
 
 
 Getting Started
@@ -75,6 +80,14 @@ RUN TESTS FOR APP:
 docker run --env-file .env -p 5000:5000 my-test-image
 
 
+RUNNING APP ON KUBERNETES - ensure secrets on pod:
+
+kubectl create secret generic loggly-token --from-literal=LOGGLY_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxx'
+kubectl create secret generic secret-key --from-literal=SECRET_KEY='xxxxxxxxxxx'
+kubectl create secret generic client-id --from-literal=client_id='xxxxxxxxxxxxxxxxxxxxxxxxx'
+kubectl create secret generic client-secret --from-literal=client_secret='xxxxxxxxxxxxxxxxxxxx'
+kubectl create secret generic mongodb-connection-string --from-literal=MONGODB_CONNECTION_STRING='mongodb://xxxxxxxxxxxxxxxxxxxxxxxxxxx'
+
 Authors.
 
 Dave Rawlinson
@@ -118,3 +131,19 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+ADDITIONAL:
+
+To stop constantly being asked to provide client_id and client_secret on a manual terraform apply .. add secret file vv.tfvars:  syntax:
+
+
+
+client_id = "xxxxxxxxxxxxxxxxxxx"
+client_secret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+LOGGLY_TOKEN = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+and run 
+
+terraform apply -var-file="vv.tfvars"
+
+(Suggestion .. add this to .gitignore  ... contains secrets)

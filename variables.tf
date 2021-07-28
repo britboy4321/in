@@ -8,9 +8,10 @@ variable "location" {
 }
 variable "client_id" {
   description = "The client ID"
-  default = "$variables_client_id"
 }
 variable "client_secret"  {
   description = "The client secret"
-  default = "$variables_client_secret"
+}
+variable "LOGGLY_TOKEN"   {
+  description = "The Loggly token"
 }

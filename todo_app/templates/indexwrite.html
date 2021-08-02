@@ -4,13 +4,15 @@
 {% block content %}
   <div class="jumbotron">
     <h1 class="display-4:centre"> AMEX In-office Skills Finder</h1>
-    <p class="lead">Who is in the office right now, that may be able to help you face-to-face?</p>
+    <p class="lead">Who is in the office right now, that may be able to assist you face-to-face?</p>
     <p class="lead"></p>Initial Dev:  Dave Rawlinson     dave.rawlinson@aexp.com                     WRITER LEVEL SECURITY</p>
     <h6> Current Date:  {{current_date}}        </h6>
   </div>
   <h2> Current User: {{write_permission_userhtml}}       
-  <button class="button button1" id='btn1' type="submit" > <A HREF = "http://www.google.com/">Help</A>         </button>
-  </h2>>
+  
+  <input type="submit" value="Help" onclick="formdatahelp()"/><br>
+  
+</h2>>
   <form action="/addmongoentry" method="post">
     <label for="title">DEVELOPER ADMIN:  Insert a new staff member:</label><br>
     <input type="text" id="title" name="title"><br>
@@ -27,7 +29,29 @@
 
 
   <label for="title">Skillset to search for::</label><br>
-  <input type="text" id="title" name="title"><br>
+  <input type="text" id="skillsearch" name="skillsearch"><br>
+
+
+    <form><br>
+      Enter your Search term: <input type="text" id="searchtext"/><br><br>
+   
+      <input type="submit" value="Java code test Submit" onclick="formdata()"/><br>
+      </form>
+      <script type="text/javascript">
+        function formdata() 
+        {
+        var skillsearch= document.getElementById("searchtext").value;
+        document.writeln("<h1>Confirmation Page</h1><br>");
+        document.writeln("Thank you for completing this form.<br><br>");
+        document.writeln("The search term you entered is " + skillsearch + "<br>");
+        }
+
+      </script>
+      <form action="/performsearch" method="POST">
+        <input type="hidden" id="skillsearchb" name="skillsearchb" value=skillsearch> 
+          <button class="button button1" id='btn1' type="submit" >Perform Search</button>
+      
+        </form>
 
   <hr>
   <hr>
@@ -37,13 +61,17 @@
       <h2>Staff members on site with currently searched skill:</h2>
       <ul class="list-group mb-4">  
         {% for eachrow in passed_items_todo %}   
-            <li>Staff Member Name:{{eachrow['title']," Staff member Skills: ",eachrow['status']}} </li>
+            <li>Staff Member Name:{{eachrow['title']," Staff member Skills: ",eachrow['skills']}} </li>
             <li>Staff Member Available until:  {{eachrow['mongodate']}} inclusive</li>
             <form action="/move_to_doing_item" method="POST">
             <input type="hidden" id="todo.title" name="item_title" value="{{ eachrow.title }}"> 
               <button class="button button1" id='btn1' type="submit" >Change to 'Offsite'</button>
-              <button class="button button1" id='btn1' type="submit" >Email Staff Member</button>
+              <a href="mailto:{{ eachrow.title }}?Subject=Request For Face to Face assistance&body=Hi, I saw you were potentially available for face to face technical assistance today, is there a time we could meet up today please?">Click here to Send mail requesting face-to-face assistance</a>
             </form>
+          <hr>
+
+
+
 
             {% endfor %}
       </ul>

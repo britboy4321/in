@@ -157,7 +157,9 @@ def mongoentry():
     write_permission_user=(current_user.name)
     if (write_permission_user == "britboy4321"):
         name = request.form['title']
-        mongodict={'title':name,'status':'todo', 'mongodate':datetime.now().strftime('%d-%m-%Y')}
+        skillset = 'SQL, MongoDB, Terraform'
+        skillset=os.environ["DEFAULT_SKILLS"]           # For admin purposes, adding new staff
+        mongodict={'title':name,'status':'todo', 'mongodate':datetime.now().strftime('%d-%m-%Y'),'skills':skillset}
         db.newposts.insert(mongodict)
     return redirect("/")
 
@@ -202,6 +204,16 @@ def move_to_todo_item():            # Called to move a 'card' BACK to 'todo' (wa
         for doc in db.newposts.find():  
             print(doc)
     return redirect("/")
+
+@app.route('/performsearch', methods = ["PUT","GET","POST"])
+def performseach():
+    searchterm = request.form['skillsearch']
+    print("Current Search Term is:")
+    print(searchterm)
+    
+
+    return redirect("/")
+
 
 @app.route('/login/callback', methods = ["GET","POST"])
 def login():

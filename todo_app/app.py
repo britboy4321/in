@@ -20,7 +20,7 @@ print ("Current working directory : %s" % os.getcwd()    )
 import requests                     # Import the whole of requests
 import json                         # May not be needed
 import os        # Secrets  (local only)
-import pymongo   # required for new mongo database   EXERCISE 9
+import pymongo   # required for new mongo database  
 from datetime import datetime, timedelta   # Needed for Mongo dates for 'older' records seperation
 from todo_app.todo import User              #Import simple user class
 from oauthlib.oauth2 import WebApplicationClient # Security prep work
@@ -71,9 +71,7 @@ client = pymongo.MongoClient(mongodb_connection_string)
 db = client.gettingStarted              # Database to be used
 app.logger.debug("Database to be used is... $s:", db)
 
-
-
-olddate = (datetime.now() - timedelta(days=5))   # Mongo: Used later to hide items older than 5 days
+olddate = (datetime.now() - timedelta(days=5))   # Mongo: Used to hide staff unavailable for more than 5 days in dropdown
 
 # olddate = (datetime.now() + timedelta(days=5))  #Uncomment this line to check 'older items'
                                                   # work without having to hang around for 5 days!
@@ -83,11 +81,11 @@ print ("Program starting right now")
 @app.route('/', methods = ["GET","PUT"])
 @login_required
 def index():
-    mongosuperlist=[]               # The name of the Mongo OVERALL list with all items in it  
-    mongo_view_model=[]             # The name of the Mongo TO DO list (section of collection)
-    mongo_view_model_doing=[]       # The name of the Mongo DOING list (section of collection)
-    mongo_view_model_done=[]        # The name of the Mongo DONE list (section of collection)
-    mongo_view_model_olddone=[]     # Older 'done' items to be stored here (section of collection)
+    mongosuperlist=[]               # The name of the Mongo OVERALL staff list with all items in it  
+    mongo_view_model=[]             # The name of the Mongo AVAILABLE staff list (section of collection)
+    mongo_view_model_doing=[]       # The name of the Mongo OFFSITE staff list (section of collection)
+    mongo_view_model_done=[]        # The name of the Mongo UNAVAILABLE staff list (section of collection)
+    mongo_view_model_olddone=[]     # Staff not available for 5 days+ (long term unavailable) stored here (section of collection) - seperated so they don't clog up 
     mongosuperlist = list(db.newposts.find()) 
  
     if LOGGLY_TOKEN is not None:
@@ -131,21 +129,24 @@ def index():
    # If statement to go here:
    
     # allow_edit = (current_user.name)
-
+    current_date = datetime.today().strftime('%d-%m-%Y')
 
     if (current_user_role == "writer"):                 # Can now handle multiple users
         return render_template('indexwrite.html',       # If user allowed to write: 
         passed_items_todo=mongo_view_model,             # Mongo To Do
         passed_items_doing=mongo_view_model_doing,      # Mongo Doing
         passed_items_done=mongo_view_model_done,        # Mongo Done
-        passed_items_olddone=mongo_view_model_olddone   # Old items ready to be displayed elsewhere
+        passed_items_olddone=mongo_view_model_olddone,   # Old items ready to be displayed elsewhere
+        write_permission_userhtml=write_permission_user,
+        current_date=current_date
         )
     else:
         return render_template('indexread.html',        # If user NOT allowed to write: 
         passed_items_todo=mongo_view_model,             # Mongo To Do
         passed_items_doing=mongo_view_model_doing,      # Mongo Doing
         passed_items_done=mongo_view_model_done,        # Mongo Done
-        passed_items_olddone=mongo_view_model_olddone   # Old items ready to be displayed elsewhere
+        passed_items_olddone=mongo_view_model_olddone,   # Old items ready to be displayed elsewhere
+        write_permission_user=write_permission_user
         )
     
 
@@ -156,7 +157,7 @@ def mongoentry():
     write_permission_user=(current_user.name)
     if (write_permission_user == "britboy4321"):
         name = request.form['title']
-        mongodict={'title':name,'status':'todo', 'mongodate':datetime.now()}
+        mongodict={'title':name,'status':'todo', 'mongodate':datetime.now().strftime('%d-%m-%Y')}
         db.newposts.insert(mongodict)
     return redirect("/")
 

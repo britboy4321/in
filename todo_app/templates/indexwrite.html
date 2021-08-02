@@ -1,29 +1,54 @@
 {% extends "layout.html" %}
-{% block title %}To-Do App{% endblock %}
+{% block title %}AMEX in-office Skillset Utility{% endblock %}
 
 {% block content %}
   <div class="jumbotron">
-    <h1 class="display-4">To-Do App</h1>
-    <p class="lead">MODULE 15, Onsite Availability.  Writer User. On Azure.  With Oauth Sec.</p>
+    <h1 class="display-4:centre"> AMEX In-office Skills Finder</h1>
+    <p class="lead">Who is in the office right now, that may be able to help you face-to-face?</p>
+    <p class="lead"></p>Initial Dev:  Dave Rawlinson     dave.rawlinson@aexp.com                     WRITER LEVEL SECURITY</p>
+    <h6> Current Date:  {{current_date}}        </h6>
   </div>
+  <h2> Current User: {{write_permission_userhtml}}       
+  <button class="button button1" id='btn1' type="submit" > <A HREF = "http://www.google.com/">Help</A>         </button>
+  </h2>>
+  <form action="/addmongoentry" method="post">
+    <label for="title">DEVELOPER ADMIN:  Insert a new staff member:</label><br>
+    <input type="text" id="title" name="title"><br>
+  </form>
+  <hr>
+  <label for="title">Current Personal Skill Set:</label>
+  <li>
+  <label for="title">Personal 'in Office and ready to help until' Declaration Date:</label>
+  <input type="text" id="staffdate" name="staffdate"><br>
 
+  </li>
+
+  <hr>
+
+
+  <label for="title">Skillset to search for::</label><br>
+  <input type="text" id="title" name="title"><br>
+
+  <hr>
+  <hr>
+  
   <div class="row">
     <div class="col-md-12">
-      <h2>MONGO to do items</h2>
+      <h2>Staff members on site with currently searched skill:</h2>
       <ul class="list-group mb-4">  
         {% for eachrow in passed_items_todo %}   
-            <li>{{eachrow['title']," IS STATUS ",eachrow['status']}} </li>
-            <li>>This item was created on:  {{eachrow['mongodate']}}</li>
+            <li>Staff Member Name:{{eachrow['title']," Staff member Skills: ",eachrow['status']}} </li>
+            <li>Staff Member Available until:  {{eachrow['mongodate']}} inclusive</li>
             <form action="/move_to_doing_item" method="POST">
             <input type="hidden" id="todo.title" name="item_title" value="{{ eachrow.title }}"> 
-              <button class="button button1" id='btn1' type="submit" >Change to doing</button>
- 
+              <button class="button button1" id='btn1' type="submit" >Change to 'Offsite'</button>
+              <button class="button button1" id='btn1' type="submit" >Email Staff Member</button>
             </form>
 
             {% endfor %}
       </ul>
 
-      <h2>MONGO doing items</h2>
+      <h2>Staff members not on site with that skill</h2>
 
       <ul class="list-group mb-4">  
         {% for eachrow in passed_items_doing %}   
@@ -31,14 +56,14 @@
             
             <form action="/move_to_done_item" method="POST">
               <input type="hidden" id="todo.title" name="item_title" value="{{ eachrow.title }}"> 
-                <button class="button button1" id='btn1' type="submit" >Change to done</button>
+                <button class="button button1" id='btn1' type="submit" >Change to Unavailable</button>
    
               </form>
 
             {% endfor %}
       </ul>
 
-      <h2>MONGO done items</h2>
+      <h2>Currently unavailable</h2>
 
       <ul class="list-group mb-4">  
         {% for eachrow in passed_items_done %}   
@@ -51,7 +76,7 @@
 
             {% endfor %}
             <details>
-              <summary>OLDER Items from MONGO done list</summary>
+              <summary>Click here to see staff Unavailable long term (over 5 days)</summary>
      
             <ul class="list-group mb-4">  
               {% for eachrow in passed_items_olddone %}   
@@ -59,18 +84,14 @@
       
                   <form action="/move_to_todo_item" method="POST">
                     <input type="hidden" id="todo.title" name="item_title" value="{{ eachrow.title }}"> 
-                      <button class="button button1" id='btn1' type="submit" >Old Item didn't work, send back to todo</button>
+                      <button class="button button1" id='btn1' type="submit" >Mark Staff Member As Available</button>
          
       
                   {% endfor %}
                   </details>
 
       </ul>
-      <form action="/addmongoentry" method="post">
-        <label for="title">Insert a new mongo title:</label><br>
-        <input type="text" id="title" name="title"><br>
-      
-      </form>
+
      
     </style>
     </head>

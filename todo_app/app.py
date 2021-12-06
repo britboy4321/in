@@ -32,6 +32,7 @@ from todo_app.todo import Todo
 
 app = Flask(__name__)
 
+
 app.secret_key = os.environ["SECRET_KEY"]
 
 ##  Set token for module 13 - loggly
@@ -61,6 +62,13 @@ def unauthenticated():
 def load_user(user_id):
     return User(user_id)
 
+print ("Program starting right now") 
+mongopassword=os.environ["mongopassword"]           # Secure password
+# hardcoded password to go here if necessary                   
+#Set up variables we'll be using...  
+client = pymongo.MongoClient('mongodb+srv://britboy4321:' + mongopassword + '@cluster0.qfyqb.mongodb.net/myFirstDatabase?w=majority')
+
+
 login_manager.init_app(app)
 client_id=os.environ["client_id"]                   # Possibly not needed, defined earlier
 client_secret=os.environ["client_secret"]           # For security
@@ -81,11 +89,13 @@ print ("Program starting right now")
 @app.route('/', methods = ["GET","PUT"])
 @login_required
 def index():
+
     mongosuperlist=[]               # The name of the Mongo OVERALL staff list with all items in it  
     mongo_view_model=[]             # The name of the Mongo AVAILABLE staff list (section of collection)
     mongo_view_model_doing=[]       # The name of the Mongo OFFSITE staff list (section of collection)
     mongo_view_model_done=[]        # The name of the Mongo UNAVAILABLE staff list (section of collection)
     mongo_view_model_olddone=[]     # Staff not available for 5 days+ (long term unavailable) stored here (section of collection) - seperated so they don't clog up 
+
     mongosuperlist = list(db.newposts.find()) 
  
     if LOGGLY_TOKEN is not None:
